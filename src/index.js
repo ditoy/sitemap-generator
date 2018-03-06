@@ -16,6 +16,7 @@ const discoverResources = require('./discoverResources');
 
 module.exports = function SitemapGenerator(uri, opts) {
   const defaultOpts = {
+    stripWWW: false,
     stripQuerystring: true,
     maxEntriesPerFile: 50000,
     maxDepth: 0,
@@ -46,7 +47,7 @@ module.exports = function SitemapGenerator(uri, opts) {
 
   const parsedUrl = parseURL(
     normalizeUrl(uri, {
-      stripWWW: false,
+      stripWWW: defaultOpts.stripWWW,
       removeTrailingSlash: false
     })
   );
