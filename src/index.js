@@ -17,6 +17,7 @@ const discoverResources = require('./discoverResources');
 module.exports = function SitemapGenerator(uri, opts) {
   const defaultOpts = {
     stripWWW: false,
+    forceSSL: false,
     stripQuerystring: true,
     maxEntriesPerFile: 50000,
     maxDepth: 0,
@@ -47,7 +48,7 @@ module.exports = function SitemapGenerator(uri, opts) {
 
   const parsedUrl = parseURL(
     normalizeUrl(uri, {
-      stripWWW: defaultOpts.stripWWW,
+      stripWWW: options.stripWWW,
       removeTrailingSlash: false
     })
   );
@@ -98,6 +99,10 @@ module.exports = function SitemapGenerator(uri, opts) {
     if (/<meta(?=[^>]+noindex).*?>/.test(page)) {
       emitter.emit('ignore', url);
     } else {
+      if (options.forceSSL) {
+        url = url.replace("http://", "https://");
+      }
+
       emitter.emit('add', url);
       sitemap.addURL(url, depth);
     }
