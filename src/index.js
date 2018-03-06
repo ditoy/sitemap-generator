@@ -94,7 +94,7 @@ module.exports = function SitemapGenerator(uri, opts) {
 
   // fetch complete event
   crawler.on('fetchcomplete', (queueItem, page) => {
-    const { url, depth } = queueItem;
+    let { url, depth } = queueItem;
     // check if robots noindex is present
     if (/<meta(?=[^>]+noindex).*?>/.test(page)) {
       emitter.emit('ignore', url);
